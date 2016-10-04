@@ -99,6 +99,7 @@ public class PersistService extends Service {
                     } else {
                         Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage(YOUR_APP_PACKAGE_NAME);
                         startActivity(LaunchIntent);
+
                     }
                 }
             }

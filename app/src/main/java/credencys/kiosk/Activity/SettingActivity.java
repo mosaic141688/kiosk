@@ -65,7 +65,7 @@ public class SettingActivity extends BaseActivity {//UI objects//
 
         manageBrightness();
         manageVolume();
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         txtLogin = (TextView) findViewById(R.id.txtLogin);
         txtLogin.setOnClickListener(new View.OnClickListener() {
             @Override
