@@ -15,12 +15,13 @@ import android.view.WindowManager;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import credencys.kiosk.Activity.MainActivity;
 import credencys.kiosk.Activity.Util.Constant;
 import credencys.kiosk.Activity.Util.MyApplicationClass;
 
 public class PersistService extends Service {
 
-    private static final long INTERVAL = 500;
+    private static final long INTERVAL = 100;
     //TimeUnit.SECONDS.toMillis(2);
     //TimeUnit.SECONDS.toMillis(2); // periodic interval to check in seconds -> 2 seconds
     private static final String YOUR_APP_PACKAGE_NAME = "credencys.kiosk";
@@ -97,10 +98,13 @@ public class PersistService extends Service {
                     if (foregroundTaskPackageName.equals(YOUR_APP_PACKAGE_NAME) || foregroundTaskPackageName.contains("com.mapfactor.navigator") || foregroundTaskPackageName.contains("com.android.gallery") || foregroundTaskPackageName.equals("com.google.android.music")
                             || foregroundTaskPackageName.equalsIgnoreCase("com.diplomat.cabdroid") || foregroundTaskPackageName.equalsIgnoreCase("android") || foregroundTaskPackageName.equalsIgnoreCase("com.android.music")) {
                     } else {
-                        Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage(YOUR_APP_PACKAGE_NAME);
+                        Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage(YOUR_APP_PACKAGE_NAME); //We commented this out
+//                        Intent ourIntent = new Intent(PersistService.this, MainActivity.class);
+//                        ourIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(LaunchIntent);
 
                     }
+
                 }
             }
 

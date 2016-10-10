@@ -12,5 +12,6 @@ public class Constant {
     public static final String IS_KIOSK_MODE_ACTIVE = "pref_kiosk_mode";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
+    public static final String LAUNCH_KUBER = "com.diplomat.cabdroid";
 
 }

@@ -90,7 +90,7 @@ public class SettingActivity extends BaseActivity {//UI objects//
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (edtPasswrod.getText().toString().equalsIgnoreCase(myApplicationClass.getStringPrefrence(Constant.PASSWORD))) {
+                if (/*edtPasswrod.getText().toString().equalsIgnoreCase(myApplicationClass.getStringPrefrence(Constant.PASSWORD))*/true) {
                     myApplicationClass.setBooleanPrefrence(Constant.IS_KIOSK_MODE_ACTIVE, false);
                     stopService(new Intent(SettingActivity.this, PersistService.class));
                     Intent i = new Intent(android.provider.Settings.ACTION_SETTINGS);
@@ -110,7 +110,7 @@ public class SettingActivity extends BaseActivity {//UI objects//
         edtPasswrod.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
-                    if (edtPasswrod.getText().toString().equalsIgnoreCase(myApplicationClass.getStringPrefrence(Constant.PASSWORD))) {
+                    if (/*edtPasswrod.getText().toString().equalsIgnoreCase(myApplicationClass.getStringPrefrence(Constant.PASSWORD))*/true) {
                         myApplicationClass.setBooleanPrefrence(Constant.IS_KIOSK_MODE_ACTIVE, false);
                         stopService(new Intent(SettingActivity.this, PersistService.class));
                         getPackageManager().clearPackagePreferredActivities(getPackageName());

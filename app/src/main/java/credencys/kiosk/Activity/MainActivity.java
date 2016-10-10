@@ -1,5 +1,6 @@
 package credencys.kiosk.Activity;
 
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -22,6 +23,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,8 +38,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import credencys.kiosk.Activity.Service.FloatingViewService;
 import credencys.kiosk.Activity.Service.PersistService;
 import credencys.kiosk.Activity.Util.Constant;
+import credencys.kiosk.Activity.HomeKeyLocker.HomeKeyLocker;
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -60,11 +64,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private Dialog dialog;
     private TelephonyManager telephonyManager;
 
+    private HomeKeyLocker homeKeyLocker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(FLAG_HOMEKEY_DISPATCHED, FLAG_HOMEKEY_DISPATCHED);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_main);
+        homeKeyLocker = new HomeKeyLocker();
+
         myPhoneStateListener = new MyPhoneStateListener();
         telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         operatorName = telephonyManager.getNetworkOperatorName();
@@ -81,6 +90,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //            makePrefered();
 //        }
 //        Toast.makeText(this, "Please select this application as default launcher", Toast.LENGTH_LONG).show();
+        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        ActivityManager.RunningTaskInfo foregroundTaskInfo = manager.getRunningTasks(1).get(0);
+        String foregroundTaskPackageName = foregroundTaskInfo.topActivity.getPackageName();
+
+/*        if (!foregroundTaskPackageName.contains("com.mapfactor.navigator")){
+            stopService(new Intent(getApplicationContext(), FloatingViewService.class));
+        }else if (foregroundTaskPackageName.equalsIgnoreCase("com.diplomat.cabdroid")){
+            stopService(new Intent(getApplicationContext(), FloatingViewService.class));
+        }*/
     }
 
     @Override
@@ -208,8 +226,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btnMap:
                 try {
+                    startService(new Intent(getApplicationContext(), FloatingViewService.class));
                     Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("com.mapfactor.navigator");
                     startActivity(LaunchIntent);
+
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -224,6 +245,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 //                Intent intentApp = new Intent(this, AppListingActivity.class);
 //                startActivity(intentApp);
+                ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+                ActivityManager.RunningTaskInfo foregroundTaskInfo = manager.getRunningTasks(1).get(0);
+                String foregroundTaskPackageName = foregroundTaskInfo.topActivity.getPackageName();
+
+                if (!foregroundTaskPackageName.contains("com.mapfactor.navigator")){
+                    stopService(new Intent(getApplicationContext(), FloatingViewService.class));
+                }else if (foregroundTaskPackageName.equalsIgnoreCase("com.diplomat.cabdroid")){
+                    stopService(new Intent(getApplicationContext(), FloatingViewService.class));
+                }
                 try {
                     Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("com.diplomat.cabdroid");
                     startActivity(LaunchIntent);
